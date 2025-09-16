@@ -1,39 +1,71 @@
 {
-   "servers":[
-     {
-       "name":"GitHub MCP server",
-       "description":"GitHub's official MCP Server",
-       "repository":{
-         "url":"https://github.com/github/github-mcp-server",
-         "source":"github"
-       },
-       "version":"0.11.0",
-       "remotes":[
-         {
-           "transport_type":"streamable",
-           "url":"https://api.githubcopilot.com/mcp",
-           "headers":[
-             {
-               "name":"Bearer",
-               "description":"Token for authentication https://github.com/settings/personal-access-tokens/new",
-               "is_required":true,
-               "is_secret":true
-             }
-           ]
-         }
-       ],
-       "_meta": {
-         "io.modelcontextprotocol.registry/official": {
-           "id": "123e4567-e89b-12d3-a456-426614172000",
-           "published_at": "2025-08-01T00:00:00Z",
-           "updated_at": "2025-08-01T00:00:00Z",
-           "is_latest": false
-         }
-       }
-     }
-   ],
-   "metadata":{
-      "next_cursor":"",
-      "count":1
-   }
+  "servers":[
+    {
+      "name":"GitHub MCP server",
+      "description":"GitHub's official MCP Server",
+      "repository":{
+        "url":"https://github.com/github/github-mcp-server",
+        "source":"github"
+      },
+      "version":"0.11.0",
+      "remotes":[
+        {
+          "transport_type":"streamable",
+          "url":"https://api.githubcopilot.com/mcp",
+          "headers":[
+            {
+              "name":"Authorization",
+              "value": "Bearer {token}",
+              "description": "header used for authentication",
+              "is_required":true,
+              "is_secret":true,
+              "variables": {
+                "token": {
+                  "description": "GitHub Personal Access Token https://github.com/settings/personal-access-tokens/new",
+                  "format": "string",
+                  "is_required": true,
+                  "is_secret":true
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "packages": [{
+        "registry_type": "oci",
+        "registry_base_url": "https://ghcr.io",
+        "identifier": "ghcr.io/github/github-mcp-server",
+        "transport": {
+          "type": "stdio"
+        },
+        "runtime_arguments": [
+          {
+            "type": "named",
+            "name": "-e",
+            "value": "GITHUB_PERSONAL_ACCESS_TOKEN={github_token}",
+            "description": "GitHub token for container environment",
+            "variables": {
+              "github_token": {
+                "description": "GitHub Personal Access Token https://github.com/settings/personal-access-tokens/new",
+                "is_required": true,
+                "is_secret": true
+              }
+            }
+          }
+        ]
+      }],
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "id": "123e4567-e89b-12d3-a456-426614172000",
+          "published_at": "2025-08-01T00:00:00Z",
+          "updated_at": "2025-08-01T00:00:00Z",
+          "is_latest": false
+        }
+      }
+    }
+  ],
+  "metadata":{
+    "next_cursor":"",
+    "count":1
+  }
 }
