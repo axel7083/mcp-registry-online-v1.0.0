@@ -140,29 +140,98 @@
       }
     },
     {
-      "name": "io.modelcontextprotocol.anonymous/mcp-fs",
-      "description": "Cloud-hosted MCP filesystem server",
+      "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-16/server.schema.json",
+      "name": "io.github.modelcontextprotocol/filesystem",
+      "description": "Node.js server implementing Model Context Protocol (MCP) for filesystem operations.",
+      "status": "active",
       "repository": {
-        "url": "https://github.com/example/remote-fs",
+        "url": "https://github.com/modelcontextprotocol/servers",
         "source": "github",
-        "id": "xyz789ab-cdef-0123-4567-890ghijklmno"
+        "id": "b94b5f7e-c7c6-d760-2c78-a5e9b8a5b8c9"
       },
-      "version": "2.0.0",
-      "remotes": [
+      "version": "1.0.2",
+      "packages": [
         {
-          "type": "sse",
-          "url": "http://mcp-fs.anonymous.modelcontextprotocol.io/sse"
+          "registryType": "npm",
+          "registryBaseUrl": "https://registry.npmjs.org",
+          "identifier": "@modelcontextprotocol/server-filesystem",
+          "version": "1.0.2",
+          "transport": {
+            "type": "stdio"
+          },
+          "packageArguments": [
+            {
+              "type": "positional",
+              "valueHint": "target_dir",
+              "description": "Path to access",
+              "default": "/Users/username/Desktop",
+              "isRequired": true,
+              "isRepeated": true
+            }
+          ],
+          "environmentVariables": [
+            {
+              "name": "LOG_LEVEL",
+              "description": "Logging level (debug, info, warn, error)",
+              "default": "info"
+            }
+          ]
+        },
+        {
+          "registryType": "oci",
+          "registryBaseUrl": "https://docker.io",
+          "identifier": "mcp/filesystem",
+          "version": "1.0.2",
+          "transport": {
+            "type": "stdio"
+          },
+          "runtimeArguments": [
+            {
+              "type": "named",
+              "description": "Mount a volume into the container",
+              "name": "--mount",
+              "value": "type=bind,src={source_path},dst={target_path}",
+              "isRequired": true,
+              "isRepeated": true,
+              "variables": {
+                "source_path": {
+                  "description": "Source path on host",
+                  "format": "filepath",
+                  "isRequired": true
+                },
+                "target_path": {
+                  "description": "Path to mount in the container. It should be rooted in `/project` directory.",
+                  "isRequired": true,
+                  "default": "/project"
+                }
+              }
+            }
+          ],
+          "packageArguments": [
+            {
+              "type": "positional",
+              "valueHint": "target_dir",
+              "value": "/project"
+            }
+          ],
+          "environmentVariables": [
+            {
+              "name": "LOG_LEVEL",
+              "description": "Logging level (debug, info, warn, error)",
+              "default": "info"
+            }
+          ]
         }
       ],
       "_meta": {
         "io.modelcontextprotocol.registry/publisher-provided": {
-          "tool": "cloud-deployer",
-          "version": "2.4.0",
+          "tool": "ci-publisher",
+          "version": "3.2.1",
           "build_info": {
-            "commit": "f7e8d9c2b1a0",
-            "timestamp": "2023-12-05T08:45:00Z",
-            "deployment_id": "remote-fs-deploy-456",
-            "region": "us-west-2"
+            "commit": "a1b2c3d4e5f6789",
+            "timestamp": "2023-12-01T10:30:00Z",
+            "pipeline_id": "filesystem-build-789",
+            "environment": "production"
           }
         }
       }
