@@ -159,6 +159,16 @@
           "transport": {
             "type": "stdio"
           },
+          "runtime_arguments": [
+            {
+              "name": "--yes",
+              "type": "named",
+              "format": "boolean",
+              "default": "true",
+              "is_required": true,
+              "is_secret": false
+            }
+          ],
           "package_arguments": [
             {
               "type": "positional",
